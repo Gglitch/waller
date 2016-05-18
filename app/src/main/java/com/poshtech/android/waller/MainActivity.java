@@ -30,9 +30,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String [] dataArrray = {"apple","banana", "cream","dream","Ear", "Front","Lol","haha","hmm"};
 
-        ArrayList<String> dataList = new ArrayList<String>(Arrays.asList(dataArrray));
+        ArrayList<String> dataList = new ArrayList<String>();
 
         data = new ArrayAdapter<String>(
                 getApplicationContext(),
@@ -63,15 +62,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id= item.getItemId();
-        if (id==R.id.action_refresh){
-            FetchRandomData wallpaperDetail = new FetchRandomData(data);
-            wallpaperDetail.execute();
-            return true;
-        }else if (id==R.id.open_settings){
+       if (id==R.id.open_settings){
             Intent setting = new Intent(this, SettingActivity.class);
             startActivity(setting);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateData();
+    }
+
+    private void updateData() {
+        FetchRandomData wallpaperDetail = new FetchRandomData(data);
+        wallpaperDetail.execute();
     }
 }
