@@ -28,12 +28,12 @@ public class DatabaseContract {
                 "vnd.android.cursor.item/"+CONTENT_AUTHORITY + "/"+
                         PATH_BASIC;
 
-        public static final String COLUMN_ID = "id";
+        public static final String COLUMN_ID = "_id";
         public static final String COLUMN_NAME = "name";
         public static final String COLUMN_CATAGORY = "catagory";
         public static final String COLUMN_SUB_CATAGORY = "sub_catagory";
         public static final String COLUMN_COLLECTION = "collection";
-        public static final String COLUMN_GROUP = "group";
+        public static final String COLUMN_GROUP = "grp";
         public static final String COLUMN_IS_DOWNLOADED = "is_downloaded";
         public static final String COLUMN_WIDTH = "width";
         public static final String COLUMN_HEIGHT = "height";

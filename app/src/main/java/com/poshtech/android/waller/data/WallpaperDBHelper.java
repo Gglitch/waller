@@ -21,7 +21,7 @@ public class WallpaperDBHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_BASIC_TABLE =
                 "CREATE TABLE " + WallpaperEntries.TABLE_NAME + " ("+
                         WallpaperEntries.COLUMN_ID + " INTEGER PRIMARY KEY,"+
-                        WallpaperEntries.TABLE_NAME + " TEXT NOT NULL ,"+
+                        WallpaperEntries.COLUMN_NAME + " TEXT ,"+
                         WallpaperEntries.COLUMN_CATAGORY + " TEXT ," +
                         WallpaperEntries.COLUMN_SUB_CATAGORY + " TEXT ," +
                         WallpaperEntries.COLUMN_COLLECTION + " TEXT ,"+
@@ -29,11 +29,11 @@ public class WallpaperDBHelper extends SQLiteOpenHelper {
                         WallpaperEntries.COLUMN_IS_DOWNLOADED+ " INTEGER DEFAULT 0,"+
                         WallpaperEntries.COLUMN_WIDTH + " INIEGER ,"+
                         WallpaperEntries.COLUMN_HEIGHT + " INTEGER ," +
-                        WallpaperEntries.COLUMN_FILE_TYPE + " INTEGER NOT NULL,"+
+                        WallpaperEntries.COLUMN_FILE_TYPE + " TEXT NOT NULL,"+
                         WallpaperEntries.COLUMN_SIZE + " INTEGER NOT NULL," +
                         WallpaperEntries.COLUMN_URL_IMAGE + " TEXT NOT NULL," +
                         WallpaperEntries.COLUMN_URL_THUMB + " TEXT NOT NULL,"+
-                        WallpaperEntries.COLUMN_METHORD + " TEXT NOT NULL,"+
+                        WallpaperEntries.COLUMN_METHORD + " TEXT NOT NULL, "+
 
                         "UNIQUE ("+WallpaperEntries.COLUMN_ID+") ON CONFLICT IGNORE);";
 

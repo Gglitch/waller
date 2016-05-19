@@ -1,6 +1,9 @@
 package com.poshtech.android.waller;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +13,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.poshtech.android.waller.data.DatabaseContract;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,34 +28,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
-    private ArrayAdapter<String> data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        ArrayList<String> dataList = new ArrayList<String>();
-
-        data = new ArrayAdapter<String>(
-                getApplicationContext(),
-                R.layout.list_layout_view,
-                R.id.list_item_wallpaper_title,
-                dataList
-        );
-
-        ListView listView = (ListView) findViewById(R.id.list_view_wallpaper);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String fieldData = data.getItem(position);
-                Intent intent = new Intent(getApplication(),DetailActivity.class)
-                        .putExtra(Intent.EXTRA_TEXT,fieldData);
-                startActivity(intent);
-            }
-        });
-        listView.setAdapter(data);
     }
 
     @Override
@@ -68,16 +50,5 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        updateData();
-    }
-
-    private void updateData() {
-        FetchRandomData wallpaperDetail = new FetchRandomData(data);
-        wallpaperDetail.execute();
     }
 }

@@ -28,7 +28,7 @@ public class WallpaperProvider extends ContentProvider {
         final String authority = DatabaseContract.CONTENT_AUTHORITY;
 
         matcher.addURI(authority,DatabaseContract.PATH_BASIC,WALLPAPER);
-        matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/*",WALLPAPER_WITH_LOCAL);
+        matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/*",WALLPAPER_WITH_METHORD);
         matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/#",WALLPAPER_WITH_LOCAL);
 
         return matcher;
@@ -46,7 +46,7 @@ public class WallpaperProvider extends ContentProvider {
         switch (sUriMatcher.match(uri)){
             case WALLPAPER_WITH_LOCAL:
                 int downloadFlag  = DatabaseContract.WallpaperEntries.getDownloadFlagFromUri(uri);
-                mOpenHelper.getReadableDatabase().query(
+                retCursor = mOpenHelper.getReadableDatabase().query(
                         DatabaseContract.WallpaperEntries.TABLE_NAME,
                         projection,
                         DatabaseContract.WallpaperEntries.COLUMN_IS_DOWNLOADED + " = ? ",
@@ -58,7 +58,7 @@ public class WallpaperProvider extends ContentProvider {
                 break;
             case WALLPAPER_WITH_METHORD:
                 String methord  = DatabaseContract.WallpaperEntries.getMethordFromUri(uri);
-                mOpenHelper.getReadableDatabase().query(
+                retCursor = mOpenHelper.getReadableDatabase().query(
                         DatabaseContract.WallpaperEntries.TABLE_NAME,
                         projection,
                         DatabaseContract.WallpaperEntries.COLUMN_METHORD + " = ? ",
@@ -158,5 +158,31 @@ public class WallpaperProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(uri,null);
         }
         return noOfRows;
+    }
+
+    @Override
+    public int bulkInsert(Uri uri, ContentValues[] values) {
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case WALLPAPER:
+                db.beginTransaction();
+                int returnCount = 0;
+                try {
+                    for (ContentValues value : values) {
+                        long _id = db.insert(DatabaseContract.WallpaperEntries.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            returnCount++;
+                        }
+                    }
+                    db.setTransactionSuccessful();
+                } finally {
+                    db.endTransaction();
+                }
+                getContext().getContentResolver().notifyChange(uri, null);
+                return returnCount;
+            default:
+                return super.bulkInsert(uri, values);
+        }
     }
 }
