@@ -33,7 +33,15 @@
         </activity>
         <provider
             android:authorities="com.poshtech.android.waller"
-            android:name=".data.WallpaperProvider" ></provider>
+            android:name=".data.WallpaperProvider"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="com.poshtech.android.LICENSE_TO_KILL"></provider>
     </application>
 
+    <permission android:name="com.poshtech.android.LICENSE_TO_KILL"
+        android:protectionLevel="dangerous"
+        android:label="License to kill">
+
+    </permission>
 </manifest>

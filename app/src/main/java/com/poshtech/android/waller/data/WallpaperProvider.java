@@ -27,9 +27,9 @@ public class WallpaperProvider extends ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = DatabaseContract.CONTENT_AUTHORITY;
 
-        matcher.addURI(authority,DatabaseContract.PATH_BASIC,WALLPAPER);
-        matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/*",WALLPAPER_WITH_METHORD);
-        matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/#",WALLPAPER_WITH_LOCAL);
+        matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/#",WALLPAPER);
+        matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/"+DatabaseContract.WallpaperEntries.COLUMN_METHORD+"/*",WALLPAPER_WITH_METHORD);
+        matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/"+DatabaseContract.WallpaperEntries.COLUMN_IS_DOWNLOADED+"/#",WALLPAPER_WITH_LOCAL);
 
         return matcher;
     }

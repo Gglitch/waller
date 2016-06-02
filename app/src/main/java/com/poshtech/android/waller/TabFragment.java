@@ -89,14 +89,19 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String fieldData = data.getItem(position);
- //               Intent intent = new Intent(getActivity(),DetailActivity.class)
-   //                     .putExtra(Intent.EXTRA_TEXT,fieldData);
-     //           startActivity(intent);
+                SimpleCursorAdapter adapter = (SimpleCursorAdapter) parent.getAdapter();
+                Cursor cursor = adapter.getCursor();
+                if (cursor!=null &&cursor.moveToPosition(position)){
+                    int idIndex = cursor.getColumnIndex(DatabaseContract.WallpaperEntries.COLUMN_ID);
+                    long Id = cursor.getInt(idIndex);
+                    Intent intent = new Intent(getActivity(),DetailActivity.class)
+                            .putExtra(Intent.EXTRA_TEXT,Id);
+                    startActivity(intent);
+                }
             }
         });
         listView.setAdapter(itemAdapter);
-        //updateData();
+        updateData();
         return rootView;
     }
 
