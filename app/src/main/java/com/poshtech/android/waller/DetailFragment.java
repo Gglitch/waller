@@ -38,7 +38,8 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onResume() {
         super.onResume();
-        if (-1 != mId){
+        Bundle args = getArguments();
+        if (args!=null  && args.containsKey(DetailActivity.KEY) && -1 != mId){
             getLoaderManager().restartLoader(DETAIL_LOADER,null,this);
         }
     }
@@ -46,8 +47,10 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null)
-        getLoaderManager().initLoader(DETAIL_LOADER,null,this);
+        Bundle args = getArguments();
+        if (args!=null  && args.containsKey(DetailActivity.KEY)){
+            getLoaderManager().initLoader(DETAIL_LOADER,null,this);
+        }
     }
 
     private static final String HASH_TAG  = " #WallerApp";
@@ -101,7 +104,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        mId = getActivity().getIntent().getLongExtra(Intent.EXTRA_TEXT,-1);
+        mId = getArguments().getLong(DetailActivity.KEY,-1);
 
         Uri uri = DatabaseContract.WallpaperEntries.buildWallpaperUri(mId);
         return new CursorLoader(

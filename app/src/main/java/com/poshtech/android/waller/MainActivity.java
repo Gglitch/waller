@@ -27,12 +27,23 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements CallBack{
+    private Boolean mTwoPane;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        if (findViewById(R.id.wallpaper_detail_container)!=null){
+            mTwoPane = true;
+
+            if (savedInstanceState == null){
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.wallpaper_detail_container,new DetailFragment())
+                        .commit();
+            }
+        }else{
+            mTwoPane = false;
+        }
     }
 
     @Override
@@ -50,5 +61,25 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemSelected(long _Id) {
+        if (mTwoPane){
+            Bundle args = new Bundle();
+            args.putLong(DetailActivity.KEY,_Id);
+
+            DetailFragment fragment = new DetailFragment();
+            fragment.setArguments(args);
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.wallpaper_detail_container,fragment)
+                    .commit();
+
+        }else{
+            Intent intent = new Intent(this,DetailActivity.class)
+                    .putExtra(DetailActivity.KEY,_Id);
+            startActivity(intent);
+        }
     }
 }

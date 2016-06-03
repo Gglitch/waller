@@ -21,12 +21,12 @@ import com.poshtech.android.waller.data.DatabaseContract;
 
 import java.util.ArrayList;
 
-/**
- * Created by Punit Chhajer on 19-05-2016.
- */
 public class TabFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static final String SELECTED_KEY = "position";
     private String mMethord = "by_favorites";
     private static final int WALLPAPER_LOADER =0;
+    private int mPosition;
+    private ListView mListView;
 
     private static final String[] WALLPAPER_COLUMNS={
             DatabaseContract.WallpaperEntries.COLUMN_ID,
@@ -49,6 +49,14 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
     private CustomCursorAdapter itemAdapter;
 
     public TabFragment(){
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if (mPosition!= ListView.INVALID_POSITION){
+            outState.putInt(SELECTED_KEY,mPosition);
+        }
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -77,8 +85,8 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
                 0
         );
 
-        ListView listView = (ListView) rootView.findViewById(R.id.list_view_wallpaper);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView = (ListView) rootView.findViewById(R.id.list_view_wallpaper);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CustomCursorAdapter adapter = (CustomCursorAdapter) parent.getAdapter();
@@ -86,13 +94,16 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
                 if (cursor!=null &&cursor.moveToPosition(position)){
                     int idIndex = cursor.getColumnIndex(DatabaseContract.WallpaperEntries.COLUMN_ID);
                     long Id = cursor.getInt(idIndex);
-                    Intent intent = new Intent(getActivity(),DetailActivity.class)
-                            .putExtra(Intent.EXTRA_TEXT,Id);
-                    startActivity(intent);
+                    ((CallBack) getActivity()).onItemSelected(Id);
                 }
+                mPosition = position;
             }
         });
-        listView.setAdapter(itemAdapter);
+        mListView.setAdapter(itemAdapter);
+
+        if (savedInstanceState!=null &&savedInstanceState.containsKey(SELECTED_KEY)){
+            mPosition = savedInstanceState.getInt(SELECTED_KEY);
+        }
         updateData();
         return rootView;
     }
@@ -118,6 +129,9 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         itemAdapter.swapCursor(data);
+        if (mPosition != ListView.INVALID_POSITION){
+            mListView.setSelection(mPosition);
+        }
     }
 
     @Override

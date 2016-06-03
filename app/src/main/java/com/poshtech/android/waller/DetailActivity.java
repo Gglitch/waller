@@ -12,6 +12,7 @@ import android.widget.TextView;
 import static android.content.Intent.*;
 
 public class DetailActivity extends AppCompatActivity {
+    public final static String KEY = "id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +22,13 @@ public class DetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
+            long id = Long.parseLong(getIntent().getStringExtra(KEY));
+
+            Bundle args = new Bundle();
+            args.putLong(KEY,id);
 
             DetailFragment fragment = new DetailFragment();
+            fragment.setArguments(args);
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.wallpaper_detail_container, fragment)
