@@ -118,17 +118,44 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data.moveToFirst()){
             String name = data.getString(data.getColumnIndex(DatabaseContract.WallpaperEntries.COLUMN_NAME));
+            String category = data.getString(data.getColumnIndex(DatabaseContract.WallpaperEntries.COLUMN_CATEGORY));
+            String subCategory = data.getString(data.getColumnIndex(DatabaseContract.WallpaperEntries.COLUMN_SUB_CATAGORY));
+            String collection = data.getString(data.getColumnIndex(DatabaseContract.WallpaperEntries.COLUMN_COLLECTION));
+            String group = data.getString(data.getColumnIndex(DatabaseContract.WallpaperEntries.COLUMN_GROUP));
             long width = data.getLong(data.getColumnIndex(DatabaseContract.WallpaperEntries.COLUMN_WIDTH));
             long height = data.getLong(data.getColumnIndex(DatabaseContract.WallpaperEntries.COLUMN_HEIGHT));
 
             TextView nameView = (TextView)getView().findViewById(R.id.detail_name_textview);
+            TextView categoryView = (TextView)getView().findViewById(R.id.detail_category_textview);
+            TextView subCategoryView = (TextView)getView().findViewById(R.id.detail_sub_category_textview);
+            TextView collectionView = (TextView)getView().findViewById(R.id.detail_collection_textview);
+            TextView groupView = (TextView)getView().findViewById(R.id.detail_group_textview);
             TextView widthView = (TextView) getView().findViewById(R.id.detail_width_textview);
             TextView heightView = (TextView) getView().findViewById(R.id.detail_height_textview);
 
             nameView.setText(name);
             widthView.setText(String.valueOf(width));
             heightView.setText(String.valueOf(height));
-
+            if (category.equals("null")){
+                getView().findViewById(R.id.detail_category_block).setVisibility(View.GONE);
+            }else{
+                categoryView.setText(category);
+            }
+            if (subCategory.equals("null")){
+                getView().findViewById(R.id.detail_sub_category_textview).setVisibility(View.GONE);
+            }else{
+                subCategoryView.setText(subCategory);
+            }
+            if (collection.equals("null")){
+                getView().findViewById(R.id.detail_collection_block).setVisibility(View.GONE);
+            }else{
+                collectionView.setText(collection);
+            }
+            if (group.equals("null")){
+                getView().findViewById(R.id.detail_group_block).setVisibility(View.GONE);
+            }else{
+                groupView.setText(group);
+            }
             mDataStr = name ;
         }
     }
