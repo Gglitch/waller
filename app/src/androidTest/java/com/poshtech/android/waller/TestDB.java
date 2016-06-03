@@ -43,7 +43,7 @@ public class TestDB extends AndroidTestCase {
         ContentValues wall = new ContentValues();
         wall.put(DatabaseContract.WallpaperEntries.COLUMN_ID,testId);
         wall.put(DatabaseContract.WallpaperEntries.COLUMN_NAME,testName);
-        wall.put(DatabaseContract.WallpaperEntries.COLUMN_CATAGORY,testCatagory);
+        wall.put(DatabaseContract.WallpaperEntries.COLUMN_CATEGORY,testCatagory);
         wall.put(DatabaseContract.WallpaperEntries.COLUMN_SUB_CATAGORY,teetSubCatagory);
         wall.put(DatabaseContract.WallpaperEntries.COLUMN_COLLECTION,testCollection);
         wall.put(DatabaseContract.WallpaperEntries.COLUMN_GROUP,testGroup);
@@ -69,7 +69,7 @@ public class TestDB extends AndroidTestCase {
         String[] columns = {
                 DatabaseContract.WallpaperEntries.COLUMN_ID,
                 DatabaseContract.WallpaperEntries.COLUMN_NAME,
-                DatabaseContract.WallpaperEntries.COLUMN_CATAGORY,
+                DatabaseContract.WallpaperEntries.COLUMN_CATEGORY,
                 DatabaseContract.WallpaperEntries.COLUMN_SUB_CATAGORY,
                 DatabaseContract.WallpaperEntries.COLUMN_COLLECTION,
                 DatabaseContract.WallpaperEntries.COLUMN_GROUP,

@@ -14,9 +14,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.poshtech.android.waller.custom.CustomCursorAdapter;
 import com.poshtech.android.waller.data.DatabaseContract;
 
 import java.util.ArrayList;
@@ -31,18 +31,22 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
     private static final String[] WALLPAPER_COLUMNS={
             DatabaseContract.WallpaperEntries.COLUMN_ID,
             DatabaseContract.WallpaperEntries.COLUMN_NAME,
-            DatabaseContract.WallpaperEntries.COLUMN_CATAGORY,
+            DatabaseContract.WallpaperEntries.COLUMN_CATEGORY,
+            DatabaseContract.WallpaperEntries.COLUMN_SUB_CATAGORY,
+            DatabaseContract.WallpaperEntries.COLUMN_COLLECTION,
             DatabaseContract.WallpaperEntries.COLUMN_WIDTH,
             DatabaseContract.WallpaperEntries.COLUMN_HEIGHT
     };
 
     public static final int COL_ID = 0;
     public static final int COL_NAME =1;
-    public static final int COL_CATAGORY = 2;
-    public static final int COL_WIDTH = 3;
-    public static final int COL_HEIGHT = 4;
+    public static final int COL_CATEGORY = 2;
+    public static final int COL_SUB_CATEGORY = 3;
+    public static final int COL_COLLECTION = 4;
+    public static final int COL_WIDTH = 5;
+    public static final int COL_HEIGHT = 6;
 
-    private SimpleCursorAdapter itemAdapter;
+    private CustomCursorAdapter itemAdapter;
 
     public TabFragment(){
     }
@@ -67,21 +71,9 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
 
         ArrayList<String> dataList = new ArrayList<String>();
 
-        itemAdapter = new SimpleCursorAdapter(
+        itemAdapter = new CustomCursorAdapter(
                 getActivity(),
-                R.layout.list_layout_view,
                 null,
-
-                new String[]{
-                        DatabaseContract.WallpaperEntries.COLUMN_NAME,
-                        DatabaseContract.WallpaperEntries.COLUMN_WIDTH,
-                        DatabaseContract.WallpaperEntries.COLUMN_HEIGHT
-                },
-                new int[]{
-                        R.id.list_item_name_textview,
-                        R.id.list_item_width_textview,
-                        R.id.list_item_height_textview
-                },
                 0
         );
 
@@ -89,7 +81,7 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SimpleCursorAdapter adapter = (SimpleCursorAdapter) parent.getAdapter();
+                CustomCursorAdapter adapter = (CustomCursorAdapter) parent.getAdapter();
                 Cursor cursor = adapter.getCursor();
                 if (cursor!=null &&cursor.moveToPosition(position)){
                     int idIndex = cursor.getColumnIndex(DatabaseContract.WallpaperEntries.COLUMN_ID);

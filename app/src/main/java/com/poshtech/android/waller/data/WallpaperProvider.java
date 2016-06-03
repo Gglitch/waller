@@ -15,8 +15,9 @@ import android.support.annotation.Nullable;
  */
 public class WallpaperProvider extends ContentProvider {
     private static final int WALLPAPER = 100;
-    private static final int WALLPAPER_WITH_METHORD = 101;
-    private static final int WALLPAPER_WITH_LOCAL = 102;
+    private static final int WALLPAPER_WITH_ID = 101;
+    private static final int WALLPAPER_WITH_METHORD = 102;
+    private static final int WALLPAPER_WITH_LOCAL = 103;
 
     private static final UriMatcher sUriMatcher = buildUriMacher();
     private WallpaperDBHelper mOpenHelper;
@@ -27,7 +28,8 @@ public class WallpaperProvider extends ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = DatabaseContract.CONTENT_AUTHORITY;
 
-        matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/#",WALLPAPER);
+        matcher.addURI(authority,DatabaseContract.PATH_BASIC,WALLPAPER);
+        matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/#",WALLPAPER_WITH_ID);
         matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/"+DatabaseContract.WallpaperEntries.COLUMN_METHORD+"/*",WALLPAPER_WITH_METHORD);
         matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/"+DatabaseContract.WallpaperEntries.COLUMN_IS_DOWNLOADED+"/#",WALLPAPER_WITH_LOCAL);
 
@@ -68,6 +70,17 @@ public class WallpaperProvider extends ContentProvider {
                         sortOrder
                 );
                 break;
+            case WALLPAPER_WITH_ID:
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        DatabaseContract.WallpaperEntries.TABLE_NAME,
+                        projection,
+                        DatabaseContract.WallpaperEntries.COLUMN_ID+" = '"+ ContentUris.parseId(uri)+"'",
+                        null,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
             case WALLPAPER:
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         DatabaseContract.WallpaperEntries.TABLE_NAME,
@@ -94,8 +107,9 @@ public class WallpaperProvider extends ContentProvider {
         switch (match){
             case WALLPAPER_WITH_LOCAL:
             case WALLPAPER_WITH_METHORD:
-                return DatabaseContract.WallpaperEntries.CONTENT_TYPE;
             case WALLPAPER:
+                return DatabaseContract.WallpaperEntries.CONTENT_TYPE;
+            case WALLPAPER_WITH_ID:
                 return DatabaseContract.WallpaperEntries.CONTENT_ITEM_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: "+uri);

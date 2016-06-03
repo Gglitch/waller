@@ -30,7 +30,7 @@ public class DatabaseContract {
 
         public static final String COLUMN_ID = "_id";
         public static final String COLUMN_NAME = "name";
-        public static final String COLUMN_CATAGORY = "catagory";
+        public static final String COLUMN_CATEGORY = "category";
         public static final String COLUMN_SUB_CATAGORY = "sub_catagory";
         public static final String COLUMN_COLLECTION = "collection";
         public static final String COLUMN_GROUP = "grp";

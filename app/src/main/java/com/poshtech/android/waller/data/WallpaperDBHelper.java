@@ -22,7 +22,7 @@ public class WallpaperDBHelper extends SQLiteOpenHelper {
                 "CREATE TABLE " + WallpaperEntries.TABLE_NAME + " ("+
                         WallpaperEntries.COLUMN_ID + " INTEGER PRIMARY KEY,"+
                         WallpaperEntries.COLUMN_NAME + " TEXT ,"+
-                        WallpaperEntries.COLUMN_CATAGORY + " TEXT ," +
+                        WallpaperEntries.COLUMN_CATEGORY + " TEXT ," +
                         WallpaperEntries.COLUMN_SUB_CATAGORY + " TEXT ," +
                         WallpaperEntries.COLUMN_COLLECTION + " TEXT ,"+
                         WallpaperEntries.COLUMN_GROUP + " TEXT,"+

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.poshtech.android.waller.data.DatabaseContract;
 
@@ -54,7 +53,7 @@ public class FetchRandomData extends AsyncTask<String, Void, Void> {
                         ContentValues wall = new ContentValues();
                         wall.put(DatabaseContract.WallpaperEntries.COLUMN_ID,d[0]);
                         wall.put(DatabaseContract.WallpaperEntries.COLUMN_NAME,d[1]);
-                        wall.put(DatabaseContract.WallpaperEntries.COLUMN_CATAGORY,d[2]);
+                        wall.put(DatabaseContract.WallpaperEntries.COLUMN_CATEGORY,d[2]);
                         wall.put(DatabaseContract.WallpaperEntries.COLUMN_SUB_CATAGORY,d[3]);
                         wall.put(DatabaseContract.WallpaperEntries.COLUMN_COLLECTION,d[4]);
                         wall.put(DatabaseContract.WallpaperEntries.COLUMN_GROUP,d[5]);
