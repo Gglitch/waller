@@ -21,8 +21,8 @@ public class DetailActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
-            long id = Long.parseLong(getIntent().getStringExtra(KEY));
+            // using a fragmenttransaction.
+            long id = getIntent().getLongExtra(KEY,-1);
 
             Bundle args = new Bundle();
             args.putLong(KEY,id);
