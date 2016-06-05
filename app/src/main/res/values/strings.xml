@@ -5,4 +5,5 @@
     <string name="detail">Details</string>
     <string name="action_share">Share</string>
     <string name="menu_search">Search</string>
+    <string name="search_hint">Search wallpaper</string>
 </resources>

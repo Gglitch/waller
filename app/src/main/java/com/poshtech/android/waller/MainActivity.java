@@ -1,13 +1,18 @@
 package com.poshtech.android.waller;
 
+import android.app.SearchManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -64,6 +69,16 @@ public class MainActivity extends AppCompatActivity implements CallBack{
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main,menu);
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        MenuItem search = menu.findItem(R.id.menu_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(search);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this,SearchResultActivity.class)));
+        return super.onCreateOptionsMenu(menu);
+    }
+
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
@@ -90,23 +105,6 @@ public class MainActivity extends AppCompatActivity implements CallBack{
 
 
         viewPager.setAdapter(adapter);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id= item.getItemId();
-       if (id==R.id.open_settings){
-            Intent setting = new Intent(this, SettingActivity.class);
-            startActivity(setting);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
