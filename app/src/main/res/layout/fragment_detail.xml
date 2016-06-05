@@ -15,21 +15,27 @@
             android:adjustViewBounds="true"
             android:src="@drawable/loading"
             android:id="@+id/image"/>
-        <Button
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:id="@+id/operation"
-            android:background="@drawable/ic_file_download_black_48dp"/>
         <ProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/downloadProgress"
             android:visibility="gone"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/blue"
+            android:gravity="right">
+            <Button
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/operation"
+                android:background="@drawable/ic_file_download_black_48dp"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?android:attr/listPreferredItemHeight"
+            android:minHeight="30dp"
             android:gravity="center"
             android:id="@+id/detail_dimention_block">
             <TextView
@@ -50,7 +56,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?android:attr/listPreferredItemHeight"
+            android:minHeight="30dp"
             android:gravity="center"
             android:id="@+id/detail_name_block">
             <TextView
@@ -66,7 +72,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?android:attr/listPreferredItemHeight"
+            android:minHeight="30dp"
             android:gravity="center"
             android:id="@+id/detail_category_block">
             <TextView
@@ -82,7 +88,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?android:attr/listPreferredItemHeight"
+            android:minHeight="30dp"
             android:gravity="center"
             android:id="@+id/detail_sub_category_block">
             <TextView
@@ -98,7 +104,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?android:attr/listPreferredItemHeight"
+            android:minHeight="30dp"
             android:gravity="center"
             android:id="@+id/detail_collection_block">
             <TextView
@@ -114,7 +120,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?android:attr/listPreferredItemHeight"
+            android:minHeight="30dp"
             android:gravity="center"
             android:id="@+id/detail_group_block">
             <TextView

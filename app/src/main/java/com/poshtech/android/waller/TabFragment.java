@@ -1,5 +1,6 @@
 package com.poshtech.android.waller;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.widget.ListView;
 
 import com.poshtech.android.waller.custom.CustomCursorAdapter;
 import com.poshtech.android.waller.data.DatabaseContract;
+import com.poshtech.android.waller.service.WallerService;
 
 import java.util.ArrayList;
 
@@ -120,8 +122,11 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
     }
 
     private void updateData() {
-        FetchRandomData wallpaperDetail = new FetchRandomData(getContext());
-        wallpaperDetail.execute(mMethord);
+        Intent alarmIntend = new Intent(getActivity(),WallerService.AlarmReceiver.class);
+
+        Intent intent = new Intent(getActivity(), WallerService.class);
+        intent.putExtra(Intent.EXTRA_TEXT,mMethord);
+        getActivity().startService(intent);
     }
 
     @Override
@@ -130,6 +135,7 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
         if (mMethord.equals(LOCAL)){
             wallpaperUri = DatabaseContract.WallpaperEntries.buildWallpaperDownloaded();
         }else {
+            updateData();
             wallpaperUri = DatabaseContract.WallpaperEntries.buildWallpaperMethord(mMethord);
         }
         return new CursorLoader(

@@ -6,4 +6,7 @@
     <string name="action_share">Share</string>
     <string name="menu_search">Search</string>
     <string name="search_hint">Search wallpaper</string>
+    
+    <string name="sync_account_type">waller.android.poshtech.com</string>
+    <string name="content_authority">com.poshtech.android.waller</string>
 </resources>
