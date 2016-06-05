@@ -79,9 +79,9 @@ public class APICall {
         try {
             if (cVVector.size() > 0) {
                 if (page++==1){
-                //    mContext.getContentResolver().delete(DatabaseContract.WallpaperEntries.CONTENT_URI,
-                //            DatabaseContract.WallpaperEntries.COLUMN_METHORD,
-                //            new String[]{mMethord});
+                    mContext.getContentResolver().delete(DatabaseContract.WallpaperEntries.CONTENT_URI,
+                            DatabaseContract.WallpaperEntries.COLUMN_METHORD +" = ?",
+                            new String[]{mMethord});
                 }
                 ContentValues[] cvArray = new ContentValues[cVVector.size()];
                 cVVector.toArray(cvArray);
