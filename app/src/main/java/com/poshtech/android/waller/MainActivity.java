@@ -24,6 +24,7 @@ import android.widget.ListView;
 
 import com.poshtech.android.waller.custom.ViewPagerAdapter;
 import com.poshtech.android.waller.data.DatabaseContract;
+import com.poshtech.android.waller.sync.WallerSyncAdapter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -67,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements CallBack{
         }else{
             mTwoPane = false;
         }
+
+        WallerSyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override

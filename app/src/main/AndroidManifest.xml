@@ -54,8 +54,6 @@
             android:syncable="true"
             android:exported="false"
             android:permission="com.poshtech.android.LICENSE_TO_KILL"></provider>
-        <service android:name=".service.WallerService"/>
-        <receiver android:name=".service.WallerService$AlarmReceiver"/>
 
         <service android:name=".sync.AuthenticatorService">
             <intent-filter>

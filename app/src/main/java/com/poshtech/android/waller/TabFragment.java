@@ -19,7 +19,6 @@ import android.widget.ListView;
 
 import com.poshtech.android.waller.custom.CustomCursorAdapter;
 import com.poshtech.android.waller.data.DatabaseContract;
-import com.poshtech.android.waller.service.WallerService;
 
 import java.util.ArrayList;
 
@@ -121,21 +120,12 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
         return rootView;
     }
 
-    private void updateData() {
-        Intent alarmIntend = new Intent(getActivity(),WallerService.AlarmReceiver.class);
-
-        Intent intent = new Intent(getActivity(), WallerService.class);
-        intent.putExtra(Intent.EXTRA_TEXT,mMethord);
-        getActivity().startService(intent);
-    }
-
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Uri wallpaperUri;
         if (mMethord.equals(LOCAL)){
             wallpaperUri = DatabaseContract.WallpaperEntries.buildWallpaperDownloaded();
         }else {
-            updateData();
             wallpaperUri = DatabaseContract.WallpaperEntries.buildWallpaperMethord(mMethord);
         }
         return new CursorLoader(

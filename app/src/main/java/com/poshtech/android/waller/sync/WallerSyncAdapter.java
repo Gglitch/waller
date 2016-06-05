@@ -12,6 +12,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.poshtech.android.waller.R;
+import com.poshtech.android.waller.TabFragment;
+import com.poshtech.android.waller.remote.APICall;
 
 /**
  * Created by Punit Chhajer on 05-06-2016.
@@ -32,7 +34,10 @@ public class WallerSyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-
+        APICall p = new APICall(getContext(), TabFragment.POPULAR);
+        p.getData();
+        APICall r = new APICall(getContext(),TabFragment.RANDOM);
+        r.getData();
     }
 
     /**
