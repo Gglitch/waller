@@ -51,17 +51,14 @@ public class DatabaseContract {
             return CONTENT_URI.buildUpon().appendPath(COLUMN_METHORD).appendPath(methord).build();
         }
 
-        public static  Uri buildWallpaperDownloaded(int isDownloaded){
-            return CONTENT_URI.buildUpon().appendPath(COLUMN_IS_DOWNLOADED).appendPath(String.valueOf(isDownloaded)).build();
+        public static  Uri buildWallpaperDownloaded(){
+            return CONTENT_URI.buildUpon().appendPath(COLUMN_IS_DOWNLOADED).build();
         }
 
         public static String getMethordFromUri(Uri uri){
             return uri.getPathSegments().get(2);
         }
 
-        public static int getDownloadFlagFromUri(Uri uri){
-            return Integer.parseInt(uri.getPathSegments().get(2));
-        }
 
         public static int getId(Uri uri){
             return Integer.parseInt(uri.getPathSegments().get(0));

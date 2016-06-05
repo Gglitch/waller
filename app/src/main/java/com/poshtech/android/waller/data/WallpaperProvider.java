@@ -31,7 +31,7 @@ public class WallpaperProvider extends ContentProvider {
         matcher.addURI(authority,DatabaseContract.PATH_BASIC,WALLPAPER);
         matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/#",WALLPAPER_WITH_ID);
         matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/"+DatabaseContract.WallpaperEntries.COLUMN_METHORD+"/*",WALLPAPER_WITH_METHORD);
-        matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/"+DatabaseContract.WallpaperEntries.COLUMN_IS_DOWNLOADED+"/#",WALLPAPER_WITH_LOCAL);
+        matcher.addURI(authority,DatabaseContract.PATH_BASIC+"/"+DatabaseContract.WallpaperEntries.COLUMN_IS_DOWNLOADED,WALLPAPER_WITH_LOCAL);
 
         return matcher;
     }
@@ -47,12 +47,11 @@ public class WallpaperProvider extends ContentProvider {
         Cursor retCursor = null;
         switch (sUriMatcher.match(uri)){
             case WALLPAPER_WITH_LOCAL:
-                int downloadFlag  = DatabaseContract.WallpaperEntries.getDownloadFlagFromUri(uri);
                 retCursor = mOpenHelper.getReadableDatabase().query(
                         DatabaseContract.WallpaperEntries.TABLE_NAME,
                         projection,
-                        DatabaseContract.WallpaperEntries.COLUMN_IS_DOWNLOADED + " = ? ",
-                        new String[]{String.valueOf(downloadFlag)},
+                        DatabaseContract.WallpaperEntries.COLUMN_IS_DOWNLOADED + " = 1 ",
+                        null,
                         null,
                         null,
                         sortOrder

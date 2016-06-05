@@ -22,11 +22,19 @@ import com.poshtech.android.waller.data.DatabaseContract;
 import java.util.ArrayList;
 
 public class TabFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    public static final String POPULAR = "by_favorites";
+    public static final String RANDOM = "random";
+    public static final String LOCAL = "local";
+    public static final String SELECTED_METHORD_KEY = "methord";
     private static final String SELECTED_KEY = "position";
-    private String mMethord = "by_favorites";
+
+    private String mMethord;
     private static final int WALLPAPER_LOADER =0;
     private int mPosition;
     private ListView mListView;
+
+
 
     private static final String[] WALLPAPER_COLUMNS={
             DatabaseContract.WallpaperEntries.COLUMN_ID,
@@ -78,6 +86,9 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
         View rootView = inflater.inflate(R.layout.fragment_tab, container, false);
 
         ArrayList<String> dataList = new ArrayList<String>();
+        if (getArguments().containsKey(SELECTED_METHORD_KEY)){
+            mMethord = getArguments().getString(SELECTED_METHORD_KEY);
+        }
 
         itemAdapter = new CustomCursorAdapter(
                 getActivity(),
@@ -104,7 +115,7 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
         if (savedInstanceState!=null &&savedInstanceState.containsKey(SELECTED_KEY)){
             mPosition = savedInstanceState.getInt(SELECTED_KEY);
         }
-        updateData();
+        //updateData();
         return rootView;
     }
 
@@ -115,10 +126,15 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri wallpaperForMethord = DatabaseContract.WallpaperEntries.buildWallpaperMethord(mMethord);
+        Uri wallpaperUri;
+        if (mMethord.equals(LOCAL)){
+            wallpaperUri = DatabaseContract.WallpaperEntries.buildWallpaperDownloaded();
+        }else {
+            wallpaperUri = DatabaseContract.WallpaperEntries.buildWallpaperMethord(mMethord);
+        }
         return new CursorLoader(
                 getActivity(),
-                wallpaperForMethord,
+                wallpaperUri,
                 WALLPAPER_COLUMNS,
                 null,
                 null,
@@ -129,7 +145,7 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         itemAdapter.swapCursor(data);
-        if (mPosition != ListView.INVALID_POSITION){
+        if (mPosition != ListView.INVALID_POSITION) {
             mListView.setSelection(mPosition);
         }
     }
