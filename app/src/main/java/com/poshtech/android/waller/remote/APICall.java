@@ -38,6 +38,7 @@ public class APICall {
     final String ID = "id";
     final String TYPE = "type";
 
+
     public APICall(Context context, String methord) {
         this.mContext = context;
         this.mMethord = methord;
@@ -45,7 +46,9 @@ public class APICall {
     }
 
 
-
+    public void setTerm(String term){
+        this.term = term;
+    }
     public void getData(){
         String jsonStr = getResponce(mMethord);
         if (jsonStr!=null){
@@ -172,7 +175,7 @@ public class APICall {
                 builder = Uri.parse(API_BASE_URL).buildUpon()
                         .appendQueryParameter(AUTH_CODE,auth_key)
                         .appendQueryParameter(METHORD,methord)
-                        .appendQueryParameter(TERM,m[1].replaceAll(" ","+"))
+                        .appendQueryParameter(TERM,term.replaceAll("\\s+","\\+"))
                         .appendQueryParameter(PAGE, String.valueOf(page))
                         .appendQueryParameter(TYPE,"1")
                         .build();

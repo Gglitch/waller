@@ -21,6 +21,7 @@ import com.poshtech.android.waller.remote.APICall;
 public class WallerSyncAdapter extends AbstractThreadedSyncAdapter {
     public final String LOG_TAG = WallerSyncAdapter.class.getSimpleName();
 
+
     // Interval at which to sync with the weather, in seconds.
     // 60 seconds (1 minute) * 180 = 3 hours
     public static final int SYNC_INTERVAL = 60 * 180;
@@ -28,16 +29,28 @@ public class WallerSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
     private static final int WEATHER_NOTIFICATION_ID = 3004;
 
+    private static final String KEY_METHORD = "methord";
+    private static final String KEY_SEARCH = "search";
+
     public WallerSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
     }
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        APICall p = new APICall(getContext(), TabFragment.POPULAR);
-        p.getData();
-        APICall r = new APICall(getContext(),TabFragment.RANDOM);
-        r.getData();
+        if (extras.containsKey(KEY_SEARCH)){
+            APICall s = new APICall(getContext(),KEY_SEARCH);
+            s.setTerm(extras.getString(KEY_SEARCH));
+            s.getData();
+        }else if (extras.containsKey(KEY_METHORD)){
+            APICall m = new APICall(getContext(), extras.getString(KEY_METHORD));
+            m.getData();
+        }else{
+            APICall p = new APICall(getContext(), TabFragment.POPULAR);
+            p.getData();
+            APICall r = new APICall(getContext(),TabFragment.RANDOM);
+            r.getData();
+        }
     }
 
     /**
@@ -63,6 +76,18 @@ public class WallerSyncAdapter extends AbstractThreadedSyncAdapter {
      * Helper method to have the sync adapter sync immediately
      * @param context The context used to access the account service
      */
+    public static void syncSelectiveImmediately(Context context,String...param) {
+        Bundle bundle = new Bundle();
+        if (param.length>0 && param[0].equals("search")){
+            bundle.putString(KEY_SEARCH,param[1]);
+        }else if (param.length>0 ){
+            bundle.putString(KEY_METHORD,param[0]);
+        }
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+        ContentResolver.requestSync(getSyncAccount(context),
+                context.getString(R.string.content_authority), bundle);
+    }
     public static void syncImmediately(Context context) {
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);

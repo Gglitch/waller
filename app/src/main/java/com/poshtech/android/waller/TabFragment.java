@@ -27,6 +27,7 @@ public class TabFragment extends Fragment implements LoaderManager.LoaderCallbac
     public static final String POPULAR = "by_favorites";
     public static final String RANDOM = "random";
     public static final String LOCAL = "local";
+    public static final String SEARCH = "search";
     public static final String SELECTED_METHORD_KEY = "methord";
     private static final String SELECTED_KEY = "position";
 
